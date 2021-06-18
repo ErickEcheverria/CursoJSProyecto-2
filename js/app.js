@@ -15,12 +15,9 @@ function eventListeners(){
     asunto.addEventListener('blur', validarFormulario);
     mensaje.addEventListener('blur', validarFormulario);
 
-    // Boton de enviar en el submit
-    formularioEnviar.addEventListener('submit', enviarEmail);
 
-    // Boton de reset
-    resetBtn.addEventListener('click', resetFormulario);
-
+    btnReset.addEventListener('click', resetFormulario);
+    formulario.addEventListener('submit', enviarEmail);
 }
 
 // Funciones
@@ -105,27 +102,26 @@ function enviarEmail(e) {
      const spinner = document.querySelector('#spinner');
      spinner.style.display = 'flex';
 
-     // Gif que envia email
-     const enviado = document.createElement('p');
-     enviado.textContent = 'Mensaje Enviado Correctamente';
-     enviado.classList.add('bg')
+     setTimeout(() =>{
+        spinner.style.display = 'none';
 
-     // Ocultar Spinner y mostrar gif de enviado
-     setTimeout( () => {
-          spinner.style.display = 'none';
+        const parrafo = document.createElement('p');
+        parrafo.textContent='El mensaje se envio!!!';
+        parrafo.classList.add('text-center','my-10','p-2','bg-green-500','text-white','font-bold','uppercase')
 
-          document.querySelector('#loaders').appendChild( enviado );
+        formulario.insertBefore(parrafo,spinner);
+        
+        setTimeOut(()=>{
+            parrafo.remove();
+            resetFormulario();
+        },500);
 
-          setTimeout(() =>  {
-               enviado.remove();
-               formularioEnviar.reset();
-          }, 5000);
-     }, 3000);
+     },3000);
 
      
 }
 
-function resetFormulario(e) {
-    formularioEnviar.reset();
-    e.preventDefault();
+function resetFormulario() {
+    formulario.reset();
+    iniciarAplicacion();
 }
